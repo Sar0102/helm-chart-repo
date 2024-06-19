@@ -2,13 +2,13 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-replicaCount: 2
+replicaCount: 3
 
 image:
   repository: sarik0102/probilet_backend_repo
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: 3e97a9a
+  tag: 1d10d0a
 
 imagePullSecrets:
   - name: regcred
@@ -83,10 +83,10 @@ readinessProbe:
 
 autoscaling:
   enabled: true
-  minReplicas: 2
-  maxReplicas: 10
-  targetCPUUtilizationPercentage: 70
-  targetMemoryUtilizationPercentage: 70
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
 
 # Additional volumes on the output Deployment definition.
 volumes: []
@@ -107,15 +107,20 @@ tolerations: []
 
 affinity: {}
 
+secret:
+  name: env-secret
+
+env:
+  secret:
+    DEBUG: "1"
+    SECRET_KEY: "mvkvmfkdvmfkdmvkfdvmkfdmvkfdmvkfdmkvfmdk"
+    DATABASE: "postgres"
+    SQL_HOST: "probilet-backend-postgresql"
+    SQL_PORT: "5432"
+    SQL_DB: "postgres"
+    SQL_USER: "postgres"
+    SQL_PASSWORD: "postgres"
 
 postgresql:
   enabled: true
   postgresqlDatabase: postgres
-
-env:
-  SQL_HOST: probilet-backend-postgresql
-  SQL_PORT: "5432"
-  SQL_DB: "{{ .Values.postgresqlDatabase }}"
-  SQL_USER: "postgres"
-  SQL_PASSWORD_SECRET: probilet-backend-postgresql
-  SQL_PASSWORD_KEY: postgres-password
