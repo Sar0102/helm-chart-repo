@@ -117,7 +117,7 @@ env:
     DATABASE: "postgres"
     SQL_HOST: "probilet-backend-postgresql"
     SQL_PORT: "5432"
-    DATABASE1: "postgres"
+    DATABASE: "postgres"
     SQL_USER: "postgres"
     SQL_PASSWORD: "postgres"
 
