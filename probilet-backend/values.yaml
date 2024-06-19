@@ -8,7 +8,7 @@ image:
   repository: sarik0102/probilet_backend_repo
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: 95dabc6
+  tag: 3e97a9a
 
 imagePullSecrets:
   - name: regcred
