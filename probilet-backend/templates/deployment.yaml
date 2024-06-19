@@ -36,9 +36,21 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          command: ["/bin/sh", "-c", "python manage.py migrate && python manage.py runserver 0.0.0.0:80"]
+          command: ["/entrypoint.sh"]
           env:
-          {{- include "probilet-backend.db.env" . | nindent 12 }}
+            - name: SQL_HOST
+              value: {{ .Values.env.SQL_HOST }}
+            - name: SQL_PORT
+              value: {{ .Values.env.SQL_PORT }}
+            - name: SQL_DB
+              value: {{ .Values.env.SQL_DB }}
+            - name: SQL_USER
+              value: {{ .Values.env.SQL_USER }}
+            - name: SQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.env.SQL_PASSWORD_SECRET }}
+                  key: {{ .Values.env.SQL_PASSWORD_KEY }}
           ports:
             - name: http
               containerPort: {{ .Values.service.port }}
@@ -49,14 +61,10 @@ spec:
             {{- toYaml .Values.readinessProbe | nindent 12 }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
-          {{- with .Values.volumeMounts }}
           volumeMounts:
-            {{- toYaml . | nindent 12 }}
-          {{- end }}
-      {{- with .Values.volumes }}
+            {{- toYaml .Values.volumeMounts | nindent 12 }}
       volumes:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
+        {{- toYaml .Values.volumes | nindent 8 }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

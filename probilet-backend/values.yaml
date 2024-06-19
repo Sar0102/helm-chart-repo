@@ -111,3 +111,11 @@ affinity: {}
 postgresql:
   enabled: true
   postgresqlDatabase: postgres
+
+env:
+  SQL_HOST: probilet-backend-postgresql
+  SQL_PORT: "5432"
+  SQL_DB: "{{ .Values.postgresqlDatabase }}"
+  SQL_USER: "postgres"
+  SQL_PASSWORD_SECRET: probilet-backend-postgresql
+  SQL_PASSWORD_KEY: postgres-password
