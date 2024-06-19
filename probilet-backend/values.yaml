@@ -119,7 +119,7 @@ env:
     SQL_PORT: "5432"
     DATABASE: "postgres"
     SQL_USER: "postgres"
-    SQL_PASSWORD: "postgres"
+    SQL_PASSWORD: ""
 
 postgresql:
   enabled: true
